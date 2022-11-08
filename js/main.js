@@ -37,8 +37,45 @@ function initializeUserAccount() {
     );
     
     console.log(userAccount);
+    
+    // config.initialForm.classList.add("d-none");
+    // config.bankPage.append(mainBankPage(userBankAccount));
+
+        // 1ページ目非表示
+    config.initialForm.classList.add("d-none");
+
+        // 2ページ目の呼び出し
+    config.bankPage.append(mainBankPage(userAccount));
 }
+
+function mainBankPage(bankAccount) {
+    let infoCon = document.createElement("div");
+    infoCon.classList.add("pb-2", "pb-md-4", "text-right");
+
+    let nameP = document.createElement("p");
+    nameP.classList.add("py-1");
+
+    // namePと全く同じクラスを持っているのでコピーします。
+    let bankIdP = nameP.cloneNode(true);
+    let initialDepositP = nameP.cloneNode(true);
+
+    // オブジェクトの情報を挿入
+    nameP.innerHTML = bankAccount.getFullName();
+    bankIdP.innerHTML = bankAccount.accountNumber;
+    initialDepositP.innerHTML = bankAccount.initialDeposit;
+
+    infoCon.append(nameP, bankIdP, initialDepositP);
+    //return infoCon;
+}
+
+
 
 // form.onsubmit = function(e) {
 
 // }
+
+// <div class="pb-2 pb-md-4 text-right">
+//     <p class="py-1">Your Name: Kaiden Herman</p>
+//     <p class="py-1">Your Back ID: 12345678</p>
+//     <p class="py-1">Your First Deposit: $205.00</p>
+// </div>
