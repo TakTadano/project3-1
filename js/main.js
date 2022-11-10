@@ -49,6 +49,8 @@ function initializeUserAccount() {
 }
 
 function mainBankPage(bankAccount) {
+    let page2 = document.createElement("div");
+    page2.classList.add("bg-green", "col-12", "text-center", "pt-md-4", "px-4", "text-white")
     let infoCon = document.createElement("div");
     infoCon.classList.add("pb-2", "pb-md-4", "text-right");
 
@@ -66,6 +68,46 @@ function mainBankPage(bankAccount) {
 
     infoCon.append(nameP, bankIdP, initialDepositP);
     //return infoCon;
+    let balanceCon = document.createElement("div");
+    balanceCon.classList.add("d-flex", "bg-danger", "py-1", "py-md-2");
+
+    // ``文字列シンタックスを使って、変数を文字列に挿入することができます。これらはテンプレートリテラルと呼ばれます。
+    // テンプレートリテラルの中では、${変数}を使うことによって変数を挿入することができます。今回は$30のように、ドルと$[変数]が同時に使われているので注意しましょう。
+    // HTMLコードを文字列として直接挿入することもできます。
+    balanceCon.innerHTML =
+    `
+        <p class="col-8 text-left rem1p5">Available Balance</p>
+        <p class="col-4 text-right rem1p5">$${bankAccount.money}</p>
+    `;
+
+    let menuCon = document.createElement("div");
+    menuCon.classList.add("d-flex", "justify-content-center", "flex-wrap", "text-center", "py-3");
+    menuCon.innerHTML = 
+    `
+        <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
+            <div id="withDrawBtn" class="p-3 bg-blue hover">
+                <h5 class="">WITHDRAWAL</p>
+                <i class="bi bi-wallet-fill icon-size"></i>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
+            <div id="dipositBtn" class="p-3 bg-blue hover">
+                <h5 class="">DEPOSIT</p>
+                <i class="bi bi-coin icon-size"></i>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
+            <div id="comeBackLaterBtn" class="p-3 bg-blue hover">
+                <h5 class="">COME BACK LATER</p>
+                <i class="bi bi-house-door icon-size"></i>    
+            </div>
+        </div>
+    `
+
+
+    page2.append(infoCon, balanceCon, menuCon);
+    return page2;
+
 }
 
 
