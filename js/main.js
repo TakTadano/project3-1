@@ -49,8 +49,8 @@ function initializeUserAccount() {
 }
 
 function mainBankPage(bankAccount) {
-    let page2 = document.createElement("div");
-    page2.classList.add("bg-green", "col-12", "text-center", "pt-md-4", "px-4", "text-white")
+    // let page2 = document.createElement("div");
+    // page2.classList.add("bg-green", "col-12", "text-center", "pt-md-4", "px-4", "text-white")
     let infoCon = document.createElement("div");
     infoCon.classList.add("pb-2", "pb-md-4", "text-right");
 
@@ -102,12 +102,25 @@ function mainBankPage(bankAccount) {
                 <i class="bi bi-house-door icon-size"></i>    
             </div>
         </div>
-    `
+    `;
 
+        menuCon.querySelectorAll("#withDrawBtn")[0].addEventListener("click", 
+    function(){
+            alert("withdraw");
+        });
+        menuCon.querySelectorAll("#dipositBtn")[0].addEventListener("click", 
+    function(){
+        alert("diposit");
+    });
+        menuCon.querySelectorAll("#comeBackLaterBtn")[0].addEventListener("click", 
+    function(){
+        alert("come back later");
+    });
 
-    page2.append(infoCon, balanceCon, menuCon);
-    return page2;
+    let container = document.createElement("div");
+    container.append(infoCon, balanceCon, menuCon);
 
+    return container;
 }
 
 
