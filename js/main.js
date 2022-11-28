@@ -255,7 +255,13 @@ function withdrawPage(userAccount) {
   nextBtn.addEventListener("click", function () {
     // nextBtn押下時にpege作成
     config.sidePage.innerHTML = "";
-    config.sidePage.append(billDialog());
+    config.sidePage.append(
+      billDialog(
+        "The money you are going to take is ... ",
+        billInputs,
+        "data-bill"
+      )
+    );
   });
 
   return container;
@@ -281,13 +287,33 @@ function billDialog(title, inputElementNodeList, multiplierAttribute) {
   container.classList.add("p-5");
   let amountConfPage = document.createElement("div");
   amountConfPage.innerHTML = `
-  <h2 class="pb-1">The money you are going to take is ... </h2>
+  <h2 class="pb-1">${title}</h2>
   <div class="d-flex justify-content-center">
     <div class="text-right col-8 px-1 calculation-box">
     </div>
   </div>
   `;
   container.append(amountConfPage);
+
+  let calBox = amountConfPage.querySelectorAll(".calculation-box")[0];
+  let calBoxChild = "";
+
+  inputElementNodeList.forEach((element) => {
+    if (element.hasAttribute(multiplierAttribute) && element.value !== "") {
+      calBoxChild += `<p class="rem1p3 calculation-box mb-1 pr-2">${
+        element.value
+      }×$${element.getAttribute(multiplierAttribute)}</p>`;
+    }
+  });
+
+  let withdrawTotal = `
+  <p class="rem1p3 pr-2">total: $${billSummation(
+    inputElementNodeList,
+    multiplierAttribute
+  )}</p>
+  `;
+  calBoxChild += withdrawTotal;
+  calBox.innerHTML = calBoxChild;
 
   return container;
 }
