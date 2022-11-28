@@ -59,6 +59,7 @@ function initializeUserAccount() {
   config.bankPage.append(mainBankPage(userAccount));
 }
 
+// 入力ページ
 function mainBankPage(userAccount) {
   // let page2 = document.createElement("div");
   // page2.classList.add("bg-green", "col-12", "text-center", "pt-md-4", "px-4", "text-white")
@@ -142,6 +143,7 @@ function mainBankPage(userAccount) {
   return container;
 }
 
+// part of withdrawPage
 function billInputSelector(title) {
   let container = document.createElement("div");
   container.innerHTML = `
@@ -197,13 +199,14 @@ function backNextBtn(back, next) {
             <button id="withdrawGoBack" class="btn btn-outline-primary col-12 back-btn">${back}</button>
         </div>
         <div class="col-6 pr-0">
-            <button id="withdrawProcess" class="btn btn-primary col-12">${next}</button>
+            <button id="withdrawProcess" class="btn btn-primary col-12 next-btn">${next}</button>
         </div>
     </div>
     `;
   return container;
 }
 
+//メインページからwithdrawページへ遷移
 function withdrawController(userAccount) {
   displayNone(config.bankPage);
   displayBlock(config.sidePage);
@@ -213,12 +216,14 @@ function withdrawController(userAccount) {
   config.sidePage.append(withdrawPage(userAccount));
 }
 
+//withdrawPage→メインページへ遷移
 function backBankPage(userAccount) {
   displayNone(config.sidePage);
   displayBlock(config.bankPage);
   config.bankPage.append(mainBankPage(userAccount));
 }
 
+//withdrawPage作成
 function withdrawPage(userAccount) {
   let container = document.createElement("div");
   container.id = "sidePage";
@@ -246,9 +251,17 @@ function withdrawPage(userAccount) {
     });
   });
 
+  let nextBtn = withdrawPage.querySelectorAll(".next-btn")[0];
+  nextBtn.addEventListener("click", function () {
+    // nextBtn押下時にpege作成
+    config.sidePage.innerHTML = "";
+    config.sidePage.append(billDialog());
+  });
+
   return container;
 }
 
+// 入力値の合計算出
 function billSummation(inputElementNodeList, multiplierAttribute) {
   let summation = 0;
   inputElementNodeList.forEach((element) => {
@@ -259,4 +272,22 @@ function billSummation(inputElementNodeList, multiplierAttribute) {
     summation += value > 0 ? value : 0;
   });
   return summation;
+}
+
+// 取り出し金額表示画面
+function billDialog(title, inputElementNodeList, multiplierAttribute) {
+  let container = document.createElement("div");
+  container.id = "sidePage";
+  container.classList.add("p-5");
+  let amountConfPage = document.createElement("div");
+  amountConfPage.innerHTML = `
+  <h2 class="pb-1">The money you are going to take is ... </h2>
+  <div class="d-flex justify-content-center">
+    <div class="text-right col-8 px-1 calculation-box">
+    </div>
+  </div>
+  `;
+  container.append(amountConfPage);
+
+  return container;
 }
