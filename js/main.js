@@ -280,40 +280,33 @@ function billSummation(inputElementNodeList, multiplierAttribute) {
   return summation;
 }
 
-// 取り出し金額表示画面
 function billDialog(title, inputElementNodeList, multiplierAttribute) {
   let container = document.createElement("div");
-  container.id = "sidePage";
-  container.classList.add("p-5");
-  let amountConfPage = document.createElement("div");
-  amountConfPage.innerHTML = `
-  <h2 class="pb-1">${title}</h2>
-  <div class="d-flex justify-content-center">
-    <div class="text-right col-8 px-1 calculation-box">
-    </div>
-  </div>
-  `;
-  container.append(amountConfPage);
 
-  let calBox = amountConfPage.querySelectorAll(".calculation-box")[0];
-  let calBoxChild = "";
-
+  let billElements = "";
   inputElementNodeList.forEach((element) => {
-    if (element.hasAttribute(multiplierAttribute) && element.value !== "") {
-      calBoxChild += `<p class="rem1p3 calculation-box mb-1 pr-2">${
-        element.value
-      }×$${element.getAttribute(multiplierAttribute)}</p>`;
+    let value = parseInt(element.value);
+
+    if (value > 0) {
+      let bill = "$" + element.getAttribute(multiplierAttribute);
+      billElements += `<p class="rem1p3 calculation-box mb-1 pr-2">${value} × ${bill}</p>`;
     }
   });
 
-  let withdrawTotal = `
-  <p class="rem1p3 pr-2">total: $${billSummation(
+  let totalString = `<p class="rem1p3 pr-2">total: $${billSummation(
     inputElementNodeList,
     multiplierAttribute
-  )}</p>
+  )}</p>`;
+
+  container.innerHTML = `
+    <h2 class="pb-1">${title}</h2>
+    <div class="d-flex justify-content-center">
+        <div class="text-right col-8 px-1 calculation-box">
+            ${billElements}
+            ${totalString}
+        </div>
+    </div>
   `;
-  calBoxChild += withdrawTotal;
-  calBox.innerHTML = calBoxChild;
 
   return container;
 }
