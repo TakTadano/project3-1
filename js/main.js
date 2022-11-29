@@ -15,6 +15,8 @@ const config = {
 };
 
 let BankAccount = class {
+  maxWithdrawPercent = 0.2;
+
   constructor(firstName, lastName, email, type, accountNumber, money) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -27,6 +29,12 @@ let BankAccount = class {
 
   getFullName() {
     return this.firstName + " " + this.lastName;
+  }
+
+  calculateWithdrawAmount(amount) {
+    let maxWithdrawAmount = Math.floor(this.money * this.maxWithdrawPercent);
+    amount = amount > maxWithdrawAmount ? maxWithdrawAmount : amount;
+    return amount;
   }
 };
 
@@ -254,14 +262,31 @@ function withdrawPage(userAccount) {
   let nextBtn = withdrawPage.querySelectorAll(".next-btn")[0];
   nextBtn.addEventListener("click", function () {
     // nextBtn押下時にpege作成
-    config.sidePage.innerHTML = "";
-    config.sidePage.append(
+    container.innerHTML = "";
+
+    let confirmDialog = document.createElement("div");
+    confirmDialog.append(
       billDialog(
-        "The money you are going to take is ... ",
+        "The money you are going to take is ...",
         billInputs,
         "data-bill"
       )
     );
+    container.append(confirmDialog);
+
+    let total = billSummation(billInputs, "data-bill");
+
+    confirmDialog.innerHTML += `
+    <div class="d-flex bg-danger py-1 py-md-2 mb-3 text-white">
+      <p class="col-8 text-left rem1p5">Total to be withdrawn: </p>
+      <p class="col-4 text-right rem1p5">$${userAccount.calculateWithdrawAmount(
+        total
+      )}</p>
+    </div>
+    `;
+
+    let backConfirmBtn = backNextBtn("Go back", "Confirm");
+    container.append(backConfirmBtn);
   });
 
   return container;
